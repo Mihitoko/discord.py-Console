@@ -29,6 +29,6 @@ async def hey(user: discord.User):  # Library automatically converts type annota
 my_console.start() # Starts console listener (opens new Thread to be nonblocking)
 client.run("Token")
 ```
-To invoke this command the line would be ``hey examleUser#0001`` or ``hey <valid_user_id>``.
+To invoke this command the line would be ``hey exampleUser#0001`` or ``hey <valid_user_id>``.
 
 You can also add Cogs, to see an example look into the Example folder.
