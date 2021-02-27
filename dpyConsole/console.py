@@ -42,7 +42,6 @@ class Console:
             try:
                 console_in = self.input.readline().replace("\n", "").split(" ")
                 try:
-                    # TODO: Create invoke Method in console.Command to avoid circular if statements
                     command = self.__commands__[console_in[0]]
                     if len(command.__subcommands__) == 0:
                         self.prepare(command, console_in[1:])
