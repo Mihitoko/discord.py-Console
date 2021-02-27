@@ -21,4 +21,4 @@ async def hey(user: discord.User):  # Library automatically converts type annota
 
 
 console.start()
-client.run("NzAxMDQ5NjMxMzU3Nzk2NDAy.Xpr1WA.4lqMzYFU1OyBjhdhoJ6mqcjUF9g")
+client.run("Token")
