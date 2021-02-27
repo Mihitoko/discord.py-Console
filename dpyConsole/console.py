@@ -20,7 +20,6 @@ class Console:
 
     def add_console_cog(self, obj):
         if isinstance(obj, Cog):
-            print(obj.commands)
             self.__commands__.update(obj.commands)
 
     def load_extension(self, path):
