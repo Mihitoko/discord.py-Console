@@ -1,5 +1,14 @@
 # discord.py-Console
 
+### Installation
+##### Windows
+`py -3 -m pip install discord.py-Console`
+
+##### Linux
+`python3 -m pip install discord.py-Console`
+
+### Usage
+
 This is a small Command line tool to execute commands from your console while your bot is running.
 
 The implementation ist really similar to register commands in discord.py.
