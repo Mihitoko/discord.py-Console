@@ -49,5 +49,5 @@ To execute the mentioned command run ``hey exampleUser#0001`` or ``hey <valid_us
 ### Links and Infos
 ----------
 
-Note: You can implement discord.py-Console commands also into your usual cogs/extensions.
-- `PyPI Download <https://pypi.org/project/discord.py-Console>`_
+Note: You can split up discord.py-Console commands into cogs view an example in the Example folder.
+- [PyPI Download](https://pypi.org/project/discord.py-Console)
