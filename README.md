@@ -1,18 +1,21 @@
-# discord.py-Console
+# Discord.py-Console
+Discord.py Console is a command line tool that allows you to control your bot and execute commands,  
+so you can **use your Bot in the terminal/console** and run Discord commands as usual.
 
 ### Installation
-##### Windows
+----------
+
+#### Windows
 `py -3 -m pip install discord.py-Console`
 
-##### Linux
+#### Linux/macOS
 `python3 -m pip install discord.py-Console`
 
-### Usage
+### Usage and Example
+----------
 
-This is a small Command line tool to execute commands from your console while your bot is running.
-
-The implementation ist really similar to register commands in discord.py.
-Just implement the Console like this:
+The implementation is similar to the regular commands in discord.py.
+Just implement the discord.py-Console like this:
 
 ```python
 import discord
@@ -23,7 +26,7 @@ my_console = Console(client)
 
 @client.event
 async def on_ready():
-    print("Im Ready")
+    print("I'm Ready")
 
 
 @my_console.command()
@@ -38,6 +41,10 @@ async def hey(user: discord.User):  # Library automatically converts type annota
 my_console.start() # Starts console listener (opens new Thread to be nonblocking)
 client.run("Token")
 ```
-To invoke this command the line would be ``hey exampleUser#0001`` or ``hey <valid_user_id>``.
+To execute the mentioned command run ``hey exampleUser#0001`` or ``hey <valid_user_id>``.
 
-You can also add Cogs, to see an example look into the Example folder.
+### Links and Infos
+----------
+
+Note: You can implement discord.py-Console commands also into your usual cogs/extensions.
+- `PyPI Download <https://pypi.org/project/discord.py-Console>`_
