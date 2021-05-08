@@ -1,2 +1,5 @@
 requirements.txt
 setup.py
+dist
+discord.py_Console.egg-info
+build
