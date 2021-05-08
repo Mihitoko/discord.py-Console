@@ -78,7 +78,6 @@ class Console:
         logger.info(f"Invoking command {command.name} with args {args}")
         if getattr(command, "cog", None):
             args_.insert(0, command.cog)
-            args_.insert(0, command.cog)
 
         converted_args = command.convert(self.converter, args_)
         if iscoroutinefunction(command.__callback__):
