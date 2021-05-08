@@ -4,6 +4,13 @@ from inspect import iscoroutinefunction
 import asyncio
 from dpyConsole.converter import Converter
 import inspect
+import logging
+import traceback
+import shlex
+from dpyConsole.errors import CommandNotFound
+
+
+logger = logging.getLogger("dpyConsole")
 
 
 class Console:
@@ -11,6 +18,7 @@ class Console:
     Handles console input and Command invocations.
     It also holds the converter in
     """
+
     def __init__(self, client, **kwargs):
         self.client = client
         self.input = kwargs.get("input", sys.stdin)
@@ -29,6 +37,7 @@ class Console:
         :return:
         """
         module = importlib.import_module(path)
+        # noinspection PyUnresolvedReferences
         module.setup(self)
 
     def listen(self):
@@ -37,30 +46,38 @@ class Console:
         This is a blocking call. To avoid the bot being stopped this has to run in an executor (New Thread)
         :return:
         """
-        self.out.write("[INFO] Console is ready and is listening for commands\n")
+        logger.info("Console is ready and is listening for commands\n")
         while True:
             try:
-                console_in = self.input.readline().replace("\n", "").split(" ")
+                console_in = shlex.split(self.input.readline())
                 try:
-                    command = self.__commands__[console_in[0]]
+                    command = self.__commands__.get(console_in[0], None)
+
+                    if not command:
+                        raise CommandNotFound(console_in[0])
+
                     if len(command.__subcommands__) == 0:
                         self.prepare(command, console_in[1:])
                     else:
                         try:
-                            sub_command = command.__subcommands__[console_in[1]]
-                        except (KeyError, IndexError):
+                            sub_command = command.__subcommands__.get(console_in[1], None)
+                        except IndexError:
+                            sub_command = None
+                        if not sub_command:
                             self.prepare(command, console_in[1:])
-                        else:
-                            self.prepare(sub_command, console_in[2:])
+                            continue
+                        self.prepare(sub_command, console_in[2:])
 
-                except (IndexError, KeyError) as e:
-                    print(e)
-            except Exception as e:
-                print(e)
+                except (IndexError, KeyError):
+                    traceback.print_exc()
+            except Exception:
+                traceback.print_exc()
 
     def prepare(self, command, args):
         args_ = args.copy()
+        logger.info(f"Invoking command {command.name} with args {args}")
         if getattr(command, "cog", None):
+            args_.insert(0, command.cog)
             args_.insert(0, command.cog)
 
         converted_args = command.convert(self.converter, args_)
@@ -160,7 +177,10 @@ class Command:
         for key, value in signature.parameters.items():
             if value.annotation != inspect.Parameter.empty:
                 converter_ = converter.get_converter(value.annotation)
-                new_param = converter_(args_[count])
+                try:
+                    new_param = converter_(args_[count])
+                except IndexError:
+                    continue
                 args_[count] = new_param
                 count += 1
             else:
