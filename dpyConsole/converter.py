@@ -61,8 +61,9 @@ class Converter:
     def get_converter(self, type):
         try:
             return self.covert_mapping[type]
-        except KeyError as e:
-            raise e
+        except KeyError:
+            raise TypeError(f"{type} can not be converted.\n"
+                            f"Add a conversion behavior using the add_converter method.")
 
     def add_converter(self, type_, func):
         """
