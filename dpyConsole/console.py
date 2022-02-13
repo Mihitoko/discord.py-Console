@@ -7,6 +7,8 @@ import inspect
 import logging
 import traceback
 import shlex
+import threading
+
 from dpyConsole.errors import CommandNotFound, ExtensionError
 
 logger = logging.getLogger("dpyConsole")
@@ -159,15 +161,13 @@ class Console:
     def remove_command(self, command):
         self.__commands__.pop(command.name, None)
 
-    def start(self, loop=None):
+    def start(self):
         """
-        Abstracts the executor initialization away from you.
-        Takes an asyncio Eventloop as param.
-        :param loop:
+        Abstracts Thread initialization away from user.
         :return:
         """
-        loop = self.client.loop if not loop else loop
-        loop.run_in_executor(None, self.listen)
+        thread = threading.Thread(None, self.listen, daemon=True)
+        thread.start()
 
 
 def _is_submodule(parent, child):
