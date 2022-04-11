@@ -104,7 +104,7 @@ class Console:
             try:
                 console_in = shlex.split(self.input.readline())
                 if len(console_in) == 0:
-                    return
+                    continue
                 try:
                     command = self.__commands__.get(console_in[0], None)
 
