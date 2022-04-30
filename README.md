@@ -2,7 +2,7 @@
 Discord.py Console is a command line tool that allows you to control your bot and execute commands,  
 so you can **use your Bot in the terminal/console** and run Discord commands as usual.
 
-**(Works with all discord.py forks like py-cord or nextcord)**
+**(Works with all discord.py forks like py-cord/pycord or nextcord)**
 
 
 ### Installation
