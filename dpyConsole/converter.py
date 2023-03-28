@@ -26,9 +26,9 @@ class Converter:
         return True if match else False
 
     def bool_converter(self, param: str):
-        if param.lower() in ["y", "yes", "on"]:
+        if param.lower() in ["y", "yes", "on", "true", "1"]:
             return True
-        elif param.lower() in ["n", "no", "off"]:
+        elif param.lower() in ["n", "no", "off", "false", "0"]:
             return False
         raise TypeError(f"Cannot convert {param} into Bool")
 
