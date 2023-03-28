@@ -44,7 +44,7 @@ class Converter:
 
     def int_converter(self, param):
         try:
-            int(param)
+            return int(param)
         except TypeError:
             raise TypeError(f"Cannot convert {param} to int")
 
