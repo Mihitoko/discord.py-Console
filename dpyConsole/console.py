@@ -1,5 +1,6 @@
 import importlib
 import sys
+from asyncio import Future
 from inspect import iscoroutinefunction
 import asyncio
 from dpyConsole.converter import Converter
@@ -59,7 +60,7 @@ class Console:
         :param path:
         :return:
         """
-        module = self.__extensions.get(path, None)
+        module = self.__extensions.pop(path, None)
         if module is None: # raise if ext is not loaded
             raise ExtensionError(f"This extension is not loaded ({path})")
         for name, cog in self.__cogs.copy().items():
@@ -86,7 +87,7 @@ class Console:
         try:
             self.unload_extension(path)
             self.load_extension(path)
-        except:
+        except Exception:
             #  Rollback
             module.setup(self)
             self.__extensions[path] = module
@@ -219,7 +220,13 @@ class Command:
         :return:
         """
         if loop:
-            asyncio.run_coroutine_threadsafe(self.__callback__(*args), loop=loop)
+            def done_callback(future: Future):
+                error = future.exception()
+                if error:
+                    traceback.print_tb(error.__traceback__)
+
+            fut = asyncio.run_coroutine_threadsafe(self.__callback__(*args), loop=loop)
+            fut.add_done_callback(done_callback)
         else:
             self.__callback__(*args)
 
